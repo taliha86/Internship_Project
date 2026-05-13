@@ -76,40 +76,38 @@ Files:
 
 ### Apply Kubernetes Manifests
 
-<div>
+```
+kubectl apply -f k8s/nginx/deployment.yaml
 
-[]{#anchor}*kubectl apply -f k8s/nginx/deployment.yaml*
+kubectl apply -f k8s/nginx/service.yaml
 
-*kubectl apply -f k8s/nginx/service.yaml*
+kubectl apply -f k8s/apache/deployment.yaml
 
-*kubectl apply -f k8s/apache/deployment.yaml*
+kubectl apply -f k8s/apache/service.yaml
 
-*kubectl apply -f k8s/apache/service.yaml*
-
-</div>
-
+```
 ### Verify Running Pods
 
-<div>
+```
 
-[]{#anchor-1}*kubectl get pods -n demo-apps*
+kubectl get pods -n demo-apps
 
-</div>
+```
 
 ### Verify Services
 
-<div>
+```
 
-[]{#anchor-2}*kubectl get svc -n demo-apps*
+kubectl get svc -n demo-apps
 
-</div>
+```
 
 ### Access Services
 
-<div>
+```
 
-[]{#anchor-3}*minikube service nginx-service -n demo-apps*
+minikube service nginx-service -n demo-apps
 
-*minikube service apache-service -n demo-apps*
+minikube service apache-service -n demo-apps
 
-</div>
+```
