@@ -6,14 +6,14 @@ Kubernetes Monitoring Locally
 
 This project is designed around a local Kubernetes environment created
 using Minikube. The architecture consists of three major layers:\
-\
-1. Application Layer\
-2. Monitoring and Alerting Layer\
-3. CI/CD Automation Layer\
-\
+
+1. Application Layer
+2. Monitoring and Alerting Layer
+3. CI/CD Automation Layer
+
 The goal of the architecture is to simulate a real-world DevOps
 infrastructure locally before migrating to cloud platforms such as AWS
-EKS.\
+EKS.
 
 ![image](./architecture.png){width="17cm"
 height="8.223cm"}
