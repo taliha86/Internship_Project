@@ -5,7 +5,7 @@ Kubernetes Monitoring Locally
 # Architecture Overview
 
 This project is designed around a local Kubernetes environment created
-using Minikube. The architecture consists of three major layers:\
+using Minikube. The architecture consists of three major layers:
 
 1. Application Layer
 2. Monitoring and Alerting Layer
