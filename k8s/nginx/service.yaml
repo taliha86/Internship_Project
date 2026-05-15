@@ -1,16 +1,13 @@
 apiVersion: v1
 kind: Service
-
 metadata:
   name: nginx-service
   namespace: demo-apps
-
 spec:
- selector:
-  app: nginx
+  type: NodePort
+  selector: { app: nginx }
+  ports:
+    - port: 80
+      targetPort: 80
+      nodePort: 30080
 
- type: NodePort
- ports:
-  - protocol: TCP
-    port: 80
-    targetPort: 80

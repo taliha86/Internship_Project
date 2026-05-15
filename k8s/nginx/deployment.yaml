@@ -1,22 +1,32 @@
 apiVersion: apps/v1
 kind: Deployment
-
 metadata:
-  name: nginx-deployment
+  name: nginx
   namespace: demo-apps
-
 spec:
-  replicas: 2
+  replicas: 1
   selector:
-    matchLabels:
-      app: nginx
+    matchLabels: { app: nginx }
   template:
     metadata:
-      labels:  
-        app: nginx
+      labels: { app: nginx }
     spec:
+      volumes:
+        - name: nginx-config
+          configMap:
+            name: nginx-vts-config
       containers:
-       - name: nginx
-         image: nginx:latest
-         ports:
-          - containerPort: 80
+        - name: nginx
+          image: ktxcx/nginx-vts:latest
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: nginx-config
+              mountPath: /etc/nginx/nginx.conf
+              subPath: nginx.conf
+        - name: vts-exporter
+          image: sophos/nginx-vts-exporter:latest
+          args:
+            - --nginx.scrape-uri=http://127.0.0.1/status
+          ports:
+            - containerPort: 9913

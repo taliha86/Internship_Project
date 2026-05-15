@@ -56,21 +56,35 @@ Purpose:
 
 # 3. Monitoring Layer
 
+### Nginx VTS Exporter
+
+The Nginx VTS (Virtual Host Traffic Status) module provides application-level metrics.
+
+It exposes:
+- Total request count
+- HTTP status codes (2xx, 4xx, 5xx)
+- Request rate
+- Traffic volume (bytes in/out)
+- Active connections
+
+These metrics are scraped by Prometheus and visualized in Grafana.
+
 ### Prometheus
 
-Prometheus continuously collects metrics from:
+Prometheus collects metrics from multiple layers:
 
--   Kubernetes nodes
--   Pods
--   Containers
--   System resources
+- **Node Exporter** → Node-level metrics (CPU, memory, disk, network)
+- **kube-state-metrics** → Kubernetes object metrics (pod status, replicas)
+- **Nginx VTS Exporter** → Application-level HTTP metrics
 
 Metrics include:
-
--   CPU usage
--   Memory usage
--   Pod health
--   Restart counts
+- CPU usage
+- Memory usage
+- Pod health
+- HTTP request count
+- Success responses (2xx)
+- Error responses (4xx)
+- Traffic (bytes in/out)
 
 ### Grafana
 

@@ -1,0 +1,14 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: nginx-vts-monitor
+  namespace: monitoring
+  labels: { release: monitoring }
+spec:
+  namespaceSelector:
+    matchNames: [demo-apps]
+  selector:
+    matchLabels: { app: nginx }
+  endpoints:
+    - port: metrics
+      interval: 15s
