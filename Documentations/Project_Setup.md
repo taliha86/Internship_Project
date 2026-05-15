@@ -188,3 +188,89 @@ Verified that Grafana dashboards are working:
 Kubernetes Node metrics
 Pod resource usage
 CPU and memory graphs
+
+# Day-4 Application Monitoring Setup (Nginx VTS)
+
+## Objective
+Enable application-level monitoring for Nginx using the VTS (Virtual Host Traffic Status) module and integrate it with Prometheus and Grafana.
+
+## Components Used
+- Nginx (with VTS module)
+- Nginx VTS Exporter
+- Prometheus
+- Grafana
+
+## Setup Overview
+
+Nginx was configured with the VTS module to expose application-level metrics through a `/status` endpoint.
+
+A sidecar container (VTS exporter) was added to convert Nginx metrics into Prometheus format.
+
+## Metrics Collected
+
+- Total HTTP requests
+- Request rate
+- HTTP status codes (2xx success, 4xx errors)
+- Traffic (bytes in/out)
+- Active connections
+
+## Verification Steps
+
+### Check VTS Endpoint
+
+
+his step validates whether the Nginx VTS (Virtual Host Traffic Status) module is correctly enabled and exposing application-level metrics.
+
+---
+
+#### Step 1 — Port Forward Nginx Pod
+
+```
+kubectl port-forward pod/<nginx-pod-name> -n demo-apps 8080:80
+
+```
+### Step 2 — Access the VTS Endpoint
+Open the following URL in your browser:
+http://localhost:8080/status
+
+### Step 3 — Port Forward Exporter Service
+Shellkubectl port-forward svc/nginx-vts-exporter -n demo-apps 9913:9913Show more lines
+Open:
+http://localhost:9913/metrics
+
+### Verify in Prometheus
+Expose Prometheus:
+Shellkubectl port-forward svc/monitoring-kube-prometheus-prometheus -n monitoring 9090:9090Show more lines
+Open:
+http://localhost:9090
+
+
+Run Queries
+PromQLnginx_server_requests{code="total"}Show more lines
+PromQLrate(nginx_server_requests{code="total"}[1m])Show more lines
+
+Generate Test Traffic
+Normal Traffic
+Shellwhile true; do curl $(minikube service nginx-service -n demo-apps --url); doneShow more lines
+Expected:
+
+✅ 2xx increases
+✅ total requests increase
+
+
+Error Traffic (404 Simulation)
+Shellwhile true; do curl $(minikube service nginx-service -n demo-apps --url)/wrongpage; doneShow more lines
+Expected:
+
+✅ 4xx increases
+✅ error rate spikes
+
+
+Final Outcome
+
+✅ Application-level metrics are collected
+✅ HTTP status codes (2xx, 4xx) are tracked
+✅ Prometheus scraping is successful
+✅ Ready for Grafana dashboards
+
+

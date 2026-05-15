@@ -48,6 +48,7 @@ system thresholds such as high CPU or memory usage are exceeded.
     1.  Prometheus
     2.  Grafana
     3.  Alertmanager
+    4.  Nginx VTS Exporter
 
 4.  **CI/CD**
 
