@@ -274,3 +274,68 @@ Final Outcome
 ✅ Ready for Grafana dashboards
 
 
+
+# Day‑5 Alerting Setup (Prometheus + Alertmanager)
+
+## Objective
+
+Configure alerting for the Nginx application using Prometheus metrics and visualize alerts in Grafana.
+
+The goal is to detect abnormal application behavior such as:
+- High traffic spikes
+- High error rate (4xx)
+- No incoming traffic
+- High active connections
+
+This completes the monitoring pipeline:
+
+Metrics → Prometheus → Alerts → Grafana
+
+---
+
+## Components Used
+
+- Prometheus (rule evaluation)
+- Alertmanager (alert handling)
+- Grafana (alert visualization)
+- Nginx VTS Exporter (application metrics source)
+
+---
+
+## Alert Rules Configuration
+
+A PrometheusRule resource was created to define alert conditions based on Nginx metrics.
+
+###Applying Alert Rule
+
+```
+kubectl apply -f k8s/monitoring/nginx-alerts.yaml
+
+```
+##Alert Visualization in Grafana
+Alert data was integrated into Grafana using the Prometheus ALERTS metric.
+###Query used in panel:
+```
+PromQLmax by (alertname, severity, alertstate) (  ALERTS{alertstate=~"firing|pending", alertname=~"HighNginx.*"})Show more lines
+```
+###Visualization Type:
+
+Table
+
+###Output:
+Displays active alerts such as:
+
+HighNginx4xxErrors
+High request rate alerts (if configured)
+
+###Result
+
+Application-level alerts successfully configured
+Real-time detection of abnormal behavior
+Alerts visible directly on Grafana dashboard
+Monitoring pipeline enhanced with alerting capability
+
+
+###Conclusion
+Alerting adds an automated layer of observability by detecting issues without manual monitoring. By combining Nginx VTS metrics with Prometheus rules and Grafana visualization, the system can proactively identify and respond to potential problems in the application.
+

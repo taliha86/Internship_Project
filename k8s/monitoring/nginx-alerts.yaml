@@ -1,0 +1,51 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: nginx-alerts
+  namespace: monitoring
+  labels:
+    release: monitoring
+spec:
+  groups:
+  - name: nginx.rules
+    rules:
+
+    # 🔥 High Request Rate
+    - alert: HighNginxRequestRate
+      expr: sum(rate(nginx_server_requests{code="total", host="_"}[1m])) > 1
+      for: 1m
+      labels:
+        severity: warning
+      annotations:
+        summary: "High Nginx Request Rate"
+        description: "Request rate is above threshold (more than 5 req/sec)"
+
+    # 🔥 High 4xx Errors (IMPORTANT)
+    - alert: HighNginx4xxErrors
+      expr: sum(rate(nginx_server_requests{code="4xx", host="_"}[1m])) > 0.2
+      for: 1m
+      labels:
+        severity: critical
+      annotations:
+        summary: "High 4xx Error Rate"
+        description: "Too many client errors (404s) detected"
+
+    # 🔥 No Traffic (Service Down)
+    - alert: NginxNoTraffic
+      expr: sum(rate(nginx_server_requests{code="total", host="_"}[1m])) == 0
+      for: 2m
+      labels:
+        severity: warning
+      annotations:
+        summary: "No Traffic to Nginx"
+        description: "Nginx is not receiving any traffic"
+
+    # 🔥 High Active Connections
+    - alert: HighNginxConnections
+      expr: nginx_server_connections{status="active", host="_"} > 50
+      for: 1m
+      labels:
+        severity: warning
+      annotations:
+        summary: "High Active Connections"
+        description: "Too many active connections on Nginx"
