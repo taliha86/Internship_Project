@@ -69,6 +69,26 @@ It exposes:
 
 These metrics are scraped by Prometheus and visualized in Grafana.
 
+### Apache Mtail (Log-based Metrics Extraction)
+
+Apache does not natively expose application-level metrics like Nginx VTS.
+To overcome this limitation, mtail is used to convert Apache access logs into Prometheus metrics.
+
+mtail reads the apache access log file and parses each request using pattern matching.
+
+It exposes:
+- Total request count
+- HTTP status codes
+- Request rate
+- Request per endpoint
+- combined path and status metrics
+
+These metrics enable:
+- Error monitoring
+- Traffic pattern analysis
+- Identification of most frequently accesses endpoints
+- Endpoint-level error tracking
+
 ### Prometheus
 
 Prometheus collects metrics from multiple layers:
