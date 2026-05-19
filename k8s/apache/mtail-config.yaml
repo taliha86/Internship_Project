@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: apache-mtail-config
+  namespace: demo-apps
+data:
+  apache.mtail: |
+    # ✅ Status counter
+    counter apache_requests_total by status
+
+    # ✅ Path counter
+    counter apache_requests_by_path by path
+
+    # ✅ Path + Status
+    counter apache_requests_by_path_status by path, status
+
+    # ✅ FINAL WORKING PATTERN ✅
+    /"(?P<method>[A-Z]+) (?P<path>[^ ]+) HTTP\/[0-9\.]+" (?P<status>[0-9]{3})/ {
+      apache_requests_total[$status]++
+      apache_requests_by_path[$path]++
+      apache_requests_by_path_status[$path][$status]++
+    }

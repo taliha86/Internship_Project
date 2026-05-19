@@ -1,11 +1,11 @@
 # Commands to Setup Or start  the Project
 
 ```
-### start minikube
+# start minikube
 minikube  start
-### Verify namespace
+# Verify namespace
 kubectl get ns
-### Verify running pods and services
+# Verify running pods and services
 kubectl get pods -n demo-apps
 kubectl get svc -n demo-apps
 kubectl get pods -n monitoring
@@ -30,12 +30,16 @@ kubectl port-forward svc/monitoring-kube-prometheus-prometheus -n monitoring 909
 ## Command to generate traffic and Errors
 
 ```
-### for error:
+# for error:
 while true; do curl $(minikube service nginx-service -n demo-apps --url)/wrongpage
 
-### for traffic spike (total request rate):
+# for traffic spike (total request rate):
 while true; do
 curl $(minikube service nginx-service -n demo-apps --url)
 done
 
+```
+###command to access Mtail
+```
+kubectl port-forward svc/apache-mtail -n demo-apps 3903
 ```

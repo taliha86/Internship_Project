@@ -339,3 +339,63 @@ Monitoring pipeline enhanced with alerting capability
 ### Conclusion
 Alerting adds an automated layer of observability by detecting issues without manual monitoring. By combining Nginx VTS metrics with Prometheus rules and Grafana visualization, the system can proactively identify and respond to potential problems in the application.
 
+# Day-6 Apache and Mtail Setup
+
+## Objective
+
+The goal of Day‑6 is to extend monitoring capabilities by:
+
+- Setting up Apache application
+- Implementing log-based monitoring using mtail
+- Parsing Apache access logs into Prometheus metrics
+- Enabling application-level observability similar to Nginx VTS
+
+This introduces a new observability approach:
+- Nginx → direct metrics (VTS)
+- Apache → metrics derived from logs (mtail)
+
+## Components Used
+
+Apached log-based Monitoring:
+- Apache Server
+- Mtail to parse logs into metrics
+- Prometheus to Query and Store metrics
+- Grafana to visalize metrics
+
+## Steps
+
+### Step:1 Deploying Apache
+
+- Created deployment.yaml with Shared volumemounts for apache and Mtail
+- Created apache Service
+
+### Step:2 Mtail Integration
+
+- Integrated Mtail using configmaps and services
+- It reads apache logs and parses it to metrics
+- extracted metrics like:
+  - HTTP status codes
+  - Requests Paths
+  - Combined Path + Status code
+
+### Step:3 Visualizing Metrics in Grafana
+
+- Created normal Dashboard to just verify that the metrics are visible in grafana
+
+## 8. Key Learnings
+
+- Apache does not expose metrics natively
+- Logs can be used as a reliable data source
+- mtail converts logs into meaningful metrics
+- Prometheus acts as the central data store
+- Grafana visualizes insights from Prometheus
+
+## 9. Conclusion
+
+Day‑6 successfully implemented log-based monitoring using mtail, enabling:
+
+- Application-level visibility for Apache
+- Tracking of request patterns and errors
+- Endpoint-level observability
+
+This complements the Nginx VTS setup, resulting in a hybrid monitoring system using both metric-based and log-based approaches.
