@@ -32,7 +32,7 @@ spec:
 
     # 🔥 No Traffic (Service Down)
     - alert: NginxNoTraffic
-      expr: sum(rate(nginx_server_requests{code="total", host="_"}[1m])) == 0
+      expr: sum(rate(nginx_server_requests{code="total", host="_"}[1m])) < 0.08
       for: 2m
       labels:
         severity: warning
