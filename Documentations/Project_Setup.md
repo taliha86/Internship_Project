@@ -6,7 +6,6 @@ Kubernetes Monitoring Locally
 
 ## Objective
 
-  
 Prepare the local Kubernetes environment and initialize the project structure.
 
 ## Installed Tools
@@ -316,7 +315,7 @@ kubectl apply -f k8s/monitoring/nginx-alerts.yaml
 Alert data was integrated into Grafana using the Prometheus ALERTS metric.
 ### Query used in panel:
 ```
-PromQLmax by (alertname, severity, alertstate) (  ALERTS{alertstate=~"firing|pending", alertname=~"HighNginx.*"})Show more lines
+max by (alertname, severity, alertstate) (  ALERTS{alertstate=~"firing|pending", alertname=~"HighNginx.*"})
 ```
 ### Visualization Type:
 
@@ -399,3 +398,63 @@ Day‑6 successfully implemented log-based monitoring using mtail, enabling:
 - Endpoint-level observability
 
 This complements the Nginx VTS setup, resulting in a hybrid monitoring system using both metric-based and log-based approaches.
+
+# Day-7 Apache Dashboard and Alerting Setup
+
+## Objective 
+- Building a Dashboard which visualizes application-level metrics.
+- Traffic Spikes, Error Rates can be Visualized in this Dashboard.
+
+## Components Used
+- Grafana : To visualize Metrics
+- Prometheus : To store Metrics
+- Alertmanager: to Define Alert rules and trigger alert
+- Mtail: To parse logs into Prometheus compatible Metrics
+
+## Dashboard Layout
+[  Request rate  ] [ Status Codes ]
+[  Error rate  ] [ Error Percentage]
+[Request brust detection] [Top URLs]
+[No traffic Alerts] [Other Alerts]
+
+## Alert Rules Configuration
+
+A Prometheus Rule resource was created to define alert conditions based on Apache metrics.
+
+### Applying Alert Rule
+
+```
+kubectl apply -f k8s/monitoring/apache-alerts.yaml
+
+```
+## Alert Visualization in Grafana
+Alert data was integrated into Grafana using the Prometheus ALERTS metric.
+
+### Query used in panel:
+```
+max by (alertname, severity, alertstate) (  ALERTS{alertstate=~"firing|pending", alertname=~"HighApache.*"})
+```
+
+### Visualization Type:
+
+Table
+
+### Output:
+Displays active alerts such as:
+
+HighApacheErrors
+HighApacheTraffic
+
+### Result
+
+Application-level alerts successfully configured
+Real-time detection of abnormal behavior
+Visualized Metrics in Grafana Dashboard
+Alerts visible directly on Grafana dashboard
+Monitoring pipeline enhanced with alerting capability
+
+
+### Conclusion
+
+Alerting adds an automated layer of observability by detecting issues without manual monitoring. By combining Mtail logs parsed into prometheus compatible metrics with Alert rules and Grafana visualization, the system can proactively identify and respond to potential problems in the application.
+

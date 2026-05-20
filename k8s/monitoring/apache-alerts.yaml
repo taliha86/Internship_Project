@@ -1,0 +1,36 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: apache-alerts
+  namespace: monitoring
+  labels:
+    release: monitoring
+spec:
+  groups:
+    - name: apache.rules
+      rules:
+
+      - alert: HighApacheErrors
+        expr: sum(rate(apache_requests_total{status=~"4..|5.."}[1m])) > 1
+        for: 1m
+        labels:
+          severity: "critical"
+        annotations:
+          summary: "High Apache Error Rate"
+          description: "Too many errors detected"
+
+      - alert: ApacheNoTraffic
+        expr: sum(rate(apache_requests_total[1m])) == 0
+        for: 2m
+        labels:
+          severity: "warning"
+        annotations:
+          summary: "No Traffic to Apache"
+
+      - alert: HighApacheTraffic
+        expr: sum(rate(apache_requests_total[1m])) > 10
+        for: 1m
+        labels:
+          severity: "warning"
+        annotations:
+          summary: "High Apache Traffic"
