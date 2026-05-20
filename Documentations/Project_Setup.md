@@ -413,8 +413,11 @@ This complements the Nginx VTS setup, resulting in a hybrid monitoring system us
 
 ## Dashboard Layout
 [  Request rate  ] [ Status Codes ]
+
 [  Error rate  ] [ Error Percentage]
+
 [Request brust detection] [Top URLs]
+
 [No traffic Alerts] [Other Alerts]
 
 ## Alert Rules Configuration
