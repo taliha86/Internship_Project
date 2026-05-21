@@ -461,3 +461,85 @@ Monitoring pipeline enhanced with alerting capability
 
 Alerting adds an automated layer of observability by detecting issues without manual monitoring. By combining Mtail logs parsed into prometheus compatible metrics with Alert rules and Grafana visualization, the system can proactively identify and respond to potential problems in the application.
 
+# Day-8 Gitlab CI/CD Integration
+
+## Objective
+
+The goal for today involves automation using CI/CD pipelines
+
+- Building Gitlab CI/CD pipeline
+- Setting up Gitlab local runner so we pipeline can get access to our cluster(minikube)
+
+## Components Used
+- Gitlab : to build CI/CD pipeline
+- local Runner: configuring local runner for pipeline
+
+## Pipeline Flow
+developer -> git push  
+         |  
+  pipeline runs  
+         |  
+  Uses kubectl inside pipeline
+         |  
+  Applies configuration to : apache, nginx, monitoring  
+         |  
+  Kubernetes updated automatically
+  
+## Configuration
+
+### step:1 Write .gitlab-ci.yaml
+
+- This file tells GitLab what to do when you push code.
+- You define stages like:
+ - build
+ - test
+ - deploy
+- Each stage contains steps (jobs) GitLab should run automatically.
+
+### Step:2 Setup gitlab local runner
+
+- A runner is a machine that actually executes pipeline jobs.
+- Install Gitlab runner on local system.
+- Connect (register) it with gitlab project using token
+- Choose how it runs jobs (here it was shell)
+
+### Step:3 Set gitlab as remote repo
+
+- Local project needs to know where to push code.
+- Add gitlab repo URL as remote.
+- and also add githu url as github(backup)
+- after that, git push will send code to gitlab and github
+```
+git config --global alias.pushall '!git push origin main && git push github main'
+git pushall
+```
+
+### Step:4 Setup SSH key to push without password or token (optional)
+
+- Normally Git asks for username/password or token when pushing.
+- SSH keys remove that by creating a secure trust between your system and GitLab.
+
+How it works:
+
+- Generate an SSH key on your system
+- Copy the public key
+- Add it to your GitLab account
+- Use the SSH repo URL instead of HTTPS
+After this:
+- You can push/pull without entering password every time
+
+## Output
+
+A fully functional pipeline:
+- Triggers on every push
+- updates kubernetes automatically
+
+## Result
+
+- Pipeline successfully configured
+- changes made and pushed to gitlab
+- pipeline triggers and rollout deployment done
+
+## Conclusion
+
+- Setup a whole pipeline which connects to minikube cluster , verifies the nodes , applies the configuration files and rollouts and restarts the deployment in kubernetes automatically . Firstly, after every minor change we manually fired kubectl commands, N			ow after every change we just need to push code and every little change is applied automatically 
