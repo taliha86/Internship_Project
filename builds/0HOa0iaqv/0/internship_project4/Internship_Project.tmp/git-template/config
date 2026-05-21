@@ -1,0 +1,10 @@
+[init]
+	defaultBranch = none
+[fetch]
+	recurseSubmodules = false
+[credential]
+	interactive = never
+[gc]
+	autoDetach = false
+[include]
+	path = /home/mindinventory/Desktop/Internship_Project/builds/0HOa0iaqv/0/internship_project4/Internship_Project.tmp/.gitlab-runner.ext.conf
