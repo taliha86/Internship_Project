@@ -20,7 +20,7 @@ spec:
           description: "Too many errors detected"
 
       - alert: ApacheNoTraffic
-        expr: sum(rate(apache_requests_total[1m])) < 0.01
+        expr: (sum(rate(apache_requests_total[2m])) OR vector(0)) < 0.01
         for: 2m
         labels:
           severity: "warning"
