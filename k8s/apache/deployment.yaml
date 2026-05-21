@@ -12,6 +12,8 @@ spec:
     metadata:
       labels:
         app: apache
+      annotations:
+        pipeline-test: "run1"
     spec:
       volumes:
         - name: apache-logs
