@@ -1,0 +1,21 @@
+stages:
+  - deploy
+
+deploy-to-k8s:
+  stage: deploy
+  tags:
+    - project
+
+  script:
+    - echo "Deploying to Minikube"
+
+    # ✅ uses your existing kubeconfig
+    - kubectl config current-context
+
+    - kubectl get nodes
+
+    - kubectl apply -f k8s/
+
+    - kubectl rollout restart deployment nginx -n demo-apps || true
+    - kubectl rollout restart deployment apache-deployment -n demo-apps || true
+
