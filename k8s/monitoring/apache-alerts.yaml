@@ -21,7 +21,7 @@ spec:
 
       - alert: ApacheNoTraffic
         expr: sum(rate(apache_requests_total[1m])) == 0
-        for: 2m
+        for: 1m
         labels:
           severity: "warning"
         annotations:
