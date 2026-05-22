@@ -542,4 +542,59 @@ A fully functional pipeline:
 
 ## Conclusion
 
-- Setup a whole pipeline which connects to minikube cluster , verifies the nodes , applies the configuration files and rollouts and restarts the deployment in kubernetes automatically . Firstly, after every minor change we manually fired kubectl commands, N			ow after every change we just need to push code and every little change is applied automatically 
+- Setup a whole pipeline which connects to minikube cluster , verifies the nodes , applies the configuration files and rollouts and restarts the deployment in kubernetes automatically . Firstly, after every minor change we manually fired kubectl commands, Now after every change we just need to push code and every little change is applied automatically.
+
+# Day-9 Testing, Finalising and Polishing the Project 
+
+## Objective
+
+The goal involves polishing the project and making it presentation ready
+
+- Final touches to Dashboards
+- Testing every traffic and alerts
+
+## Components Used
+- Grafana : For giving Final touch to dashboards
+- Prometheus : to view alert rules and test them
+
+## Steps Taken in Final Dashboard
+
+### Nginx_application dashboard
+- Setting units in every panels.
+- Setting Thresholds and changing some panels graph type.
+
+### Apache_application dashboard
+- Setting units in every panels.
+- Setting Thresholds.
+
+## Configuration
+
+### Access grafana on browser
+```
+kubectl port-forward svc/monitoring-grafana -n monitoring 3000:80
+```
+
+### Editing dashboard
+
+- open dashboard (nginx or apache)
+- click on edit
+- click on panel you want to edit
+- click on configure
+- scroll down to unit and choose the unit according to the query
+
+## Output 
+
+- Clean and project ready dashboard
+- Every alers working as expected
+
+## Result
+
+- A fully functional monitoring Project with Production grade dashboard and Real time Traffic analysis.
+
+## Conclusion
+
+- Tested and finalized the dashboard making it production grade.
+- We've now reached a point where our project is :
+✅ Fully functional
+✅ End-to-end automated
+✅ Production-style observability system ✅🔥
